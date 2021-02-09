@@ -2,7 +2,7 @@
   <base-input>
     <template>
       <label :for="this.name">{{ label }}</label>
-      <select @change="handleChange($event)">
+      <select @change="handleChange" v-model="selectedOptions">
         <option
           v-for="option in optionsValue"
           :key="option.key"
@@ -31,11 +31,21 @@ export default {
       return availableOptions.concat(this.options);
     },
   },
+  data() {
+    return {
+      selectedOptions: null,
+    }
+  },
   props: ["label", "name", "options", "value", "placeholder"],
   emits: ["input"],
+  watch: {
+    value(newValue) {
+      this.selectedOptions = newValue;
+    }
+  },
   methods: {
-    handleChange(event) {
-      const selectedValue = event.target.value;
+    handleChange() {
+      const selectedValue = this.selectedOptions;
       let emittedValue = null;
 
       if (selectedValue) {

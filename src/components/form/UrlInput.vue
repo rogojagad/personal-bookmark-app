@@ -29,6 +29,11 @@ export default {
   },
   props: ["label", "name", "value"],
   emits: ["input"],
+  watch: {
+    value(newValue) {
+      this.inputValue = newValue;
+    }
+  },
   methods: {
     handleOnInput() {
       const isValidUrl =

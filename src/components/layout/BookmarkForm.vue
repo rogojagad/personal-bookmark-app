@@ -56,6 +56,10 @@ export default {
         category: this.category,
         url: this.url,
       });
+
+      this.title = null;
+      this.category = null;
+      this.url = null;
     },
   },
 };
