@@ -31,7 +31,7 @@ import UrlInput from "../form/UrlInput.vue";
 export default {
   data() {
     return {
-      category: null,
+      category: "-",
       title: null,
       url: null,
     };
@@ -39,26 +39,24 @@ export default {
   components: { UrlInput, SelectInput, TextInput },
   computed: {
     isDisabled() {
-      console.log(
-        this.category,
-        this.title,
-        this.url,
-        this.category && this.title && this.url
-      );
-      return Boolean(this.category && this.title && this.url);
+      const validCategory = this.category !== "-";
+      return Boolean(validCategory && this.title && this.url);
     },
   },
   inject: ["categories", "handleFormSubmitted"],
   methods: {
     handleSubmit() {
       this.handleFormSubmitted({
-        title: this.title,
         category: this.category,
+        id: Math.random()
+          .toString(36)
+          .substring(7),
+        title: this.title,
         url: this.url,
       });
 
       this.title = null;
-      this.category = null;
+      this.category = "-";
       this.url = null;
     },
   },

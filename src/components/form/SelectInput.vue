@@ -2,9 +2,17 @@
   <base-input>
     <template>
       <label :for="this.name">{{ label }}</label>
-      <select @change="handleChange" v-model="selectedOptions">
+      <select @change="handleChange($event)" v-model="selectedOptions">
         <option
-          v-for="option in optionsValue"
+          :value="this.firstOption.key"
+          :key="this.firstOption.key"
+          disabled
+          hidden
+          selected
+          >{{ this.placeholder }}</option
+        >
+        <option
+          v-for="option in options"
           :key="option.key"
           :value="option.key"
           >{{ option.label }}</option
@@ -19,36 +27,28 @@ import BaseInput from "./BaseInput.vue";
 
 export default {
   components: { BaseInput },
-  computed: {
-    optionsValue: function() {
-      const availableOptions = [
-        {
-          label: this.placeholder,
-          value: null,
-        },
-      ];
-
-      return availableOptions.concat(this.options);
-    },
-  },
   data() {
     return {
-      selectedOptions: null,
-    }
+      firstOption: {
+        label: this.placeholder,
+        key: "-",
+      },
+      selectedOptions: "-",
+    };
   },
   props: ["label", "name", "options", "value", "placeholder"],
   emits: ["input"],
   watch: {
     value(newValue) {
       this.selectedOptions = newValue;
-    }
+    },
   },
   methods: {
-    handleChange() {
-      const selectedValue = this.selectedOptions;
+    handleChange(event) {
+      const selectedValue = event.target.value;
       let emittedValue = null;
 
-      if (selectedValue) {
+      if (selectedValue !== "-") {
         emittedValue = selectedValue;
       }
 
