@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import SelectInput from "../form/SelectInput.vue";
-import TextInput from "../form/TextInput.vue";
-import UrlInput from "../form/UrlInput.vue";
+import SelectInput from "../formInput/SelectInput.vue";
+import TextInput from "../formInput/TextInput.vue";
+import UrlInput from "../formInput/UrlInput.vue";
 
 export default {
   data() {
