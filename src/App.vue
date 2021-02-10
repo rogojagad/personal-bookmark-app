@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { AVAILABLE_CATEGORIES, DUMMY_BOOKMARK_DATA } from "./constants";
 import BookmarkForm from "./components/layout/BookmarkForm.vue";
 import BookmarkGrid from "./components/layout/BookmarkGrid";
 import TheHeader from "./components/layout/TheHeader";
@@ -19,31 +20,8 @@ export default {
   components: { BookmarkForm, BookmarkGrid, TheHeader },
   data() {
     return {
-      availableBookmarks: [
-        {
-          id: "book1",
-          title: "Binding Inline Styles",
-          category: "good-reading",
-          url: "https://vuejs.org/v2/guide/class-and-style.html",
-        },
-        {
-          id: "book2",
-          title: "Bookmark 2",
-          category: "work-stuff",
-          url: "https://google.com",
-        },
-        {
-          id: "book3",
-          title: "Bookmark 3",
-          category: "entertainment",
-          url: "https://google.com",
-        },
-      ],
-      availableCategories: [
-        { label: "Good Reading", key: "good-reading", colorCode: "#ffe294" },
-        { label: "Work Stuff", key: "work-stuff", colorCode: "#b2ff94" },
-        { label: "Entertainment", key: "entertainment", colorCode: "#e6a8a8" },
-      ],
+      availableBookmarks: DUMMY_BOOKMARK_DATA,
+      availableCategories: AVAILABLE_CATEGORIES,
     };
   },
   provide() {

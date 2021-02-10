@@ -15,3 +15,6 @@ RUN npm install
 
 # Expose Ports
 EXPOSE 8080
+
+# Run Dev Server
+CMD ["npm", "run", "serve"]

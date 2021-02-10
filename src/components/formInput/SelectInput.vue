@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { DEFAULT_SELECT_INPUT_VALUE } from "./../../constants";
 import BaseInput from "./BaseInput.vue";
 
 export default {
@@ -31,9 +32,9 @@ export default {
     return {
       firstOption: {
         label: this.placeholder,
-        key: "-",
+        key: DEFAULT_SELECT_INPUT_VALUE,
       },
-      selectedOptions: "-",
+      selectedOptions: DEFAULT_SELECT_INPUT_VALUE,
     };
   },
   props: ["label", "name", "options", "value", "placeholder"],
@@ -48,7 +49,7 @@ export default {
       const selectedValue = event.target.value;
       let emittedValue = null;
 
-      if (selectedValue !== "-") {
+      if (selectedValue !== DEFAULT_SELECT_INPUT_VALUE) {
         emittedValue = selectedValue;
       }
 
