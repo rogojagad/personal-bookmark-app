@@ -1,23 +1,13 @@
 <template>
   <div id="app">
-    <the-header></the-header>
-    <bookmark-form @form-submitted="handleFormSubmitted"></bookmark-form>
-    <bookmark-grid
-      v-for="category in this.availableCategories"
-      :category="category"
-      :key="category.key"
-    ></bookmark-grid>
+    <router-view />
   </div>
 </template>
 
 <script>
 import { AVAILABLE_CATEGORIES, DUMMY_BOOKMARK_DATA } from "./constants";
-import BookmarkForm from "./components/layout/BookmarkForm.vue";
-import BookmarkGrid from "./components/layout/BookmarkGrid";
-import TheHeader from "./components/layout/TheHeader";
 
 export default {
-  components: { BookmarkForm, BookmarkGrid, TheHeader },
   data() {
     return {
       availableBookmarks: DUMMY_BOOKMARK_DATA,
