@@ -1,10 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
-import Axios from "axios";
 import router from "./router";
+import HTTPClient from "./utils/HTTPClient";
 
-Vue.prototype.$http = Axios;
-
+Vue.prototype.$http = new HTTPClient();
 Vue.config.productionTip = false;
 
 new Vue({

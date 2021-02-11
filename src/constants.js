@@ -1,3 +1,5 @@
+export const ACCESS_TOKEN_KEY = "access_token";
+
 export const AVAILABLE_CATEGORIES = [
   { label: "Good Reading", key: "good-reading", colorCode: "#ffe294" },
   { label: "Work Stuff", key: "work-stuff", colorCode: "#b2ff94" },
@@ -26,3 +28,7 @@ export const DUMMY_BOOKMARK_DATA = [
     url: "https://google.com",
   },
 ];
+
+export const REFRESH_TOKEN_KEY = "refresh_token";
+
+export const TOKEN_EXPIRED_ERROR_MESSAGE = "TokenExpiredError";

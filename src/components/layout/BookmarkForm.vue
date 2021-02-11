@@ -8,6 +8,13 @@
         v-model="title"
       ></text-input>
 
+      <text-input
+        label="Description"
+        name="description"
+        :max-length="60"
+        v-model="description"
+      ></text-input>
+
       <select-input
         label="Category"
         name="category"
@@ -32,6 +39,7 @@ export default {
   data() {
     return {
       category: "-",
+      description: null,
       title: null,
       url: null,
     };
@@ -40,35 +48,31 @@ export default {
   computed: {
     isDisabled() {
       const validCategory = this.category !== "-";
-      return Boolean(validCategory && this.title && this.url);
+      return Boolean(
+        validCategory && this.title && this.url && this.description
+      );
     },
   },
-  inject: ["categories", "handleFormSubmitted"],
+  inject: ["categories", "handleBookmarkFormSubmitted"],
   methods: {
     handleSubmit() {
-      this.handleFormSubmitted({
+      this.handleBookmarkFormSubmitted({
         category: this.category,
         id: Math.random()
           .toString(36)
           .substring(7),
         title: this.title,
         url: this.url,
+        description: this.description,
       });
 
       this.title = null;
       this.category = "-";
       this.url = null;
+      this.description = null;
     },
   },
 };
 </script>
 
-<style scoped>
-.form-container {
-  margin: 2rem auto;
-  max-width: 40rem;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-}
-</style>
+<style></style>

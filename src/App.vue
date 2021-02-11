@@ -4,40 +4,7 @@
   </div>
 </template>
 
-<script>
-import { AVAILABLE_CATEGORIES, DUMMY_BOOKMARK_DATA } from "./constants";
-
-export default {
-  data() {
-    return {
-      availableBookmarks: DUMMY_BOOKMARK_DATA,
-      availableCategories: AVAILABLE_CATEGORIES,
-    };
-  },
-  provide() {
-    return {
-      bookmarks: this.availableBookmarks,
-      categories: this.availableCategories,
-      handleFormSubmitted: this.handleFormSubmitted,
-      handleBookmarkDeleted: this.handleBookmarkDeleted,
-    };
-  },
-  methods: {
-    handleFormSubmitted(newBookmark) {
-      this.availableBookmarks.push(newBookmark);
-    },
-    handleBookmarkDeleted(id) {
-      let idx = -1;
-      this.availableBookmarks.find((bookmark) => {
-        idx++;
-        return bookmark.id === id;
-      });
-
-      this.availableBookmarks.splice(idx, 1);
-    },
-  },
-};
-</script>
+<script></script>
 
 <style>
 #app {
@@ -46,5 +13,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.form-container {
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 </style>
