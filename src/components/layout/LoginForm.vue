@@ -16,6 +16,9 @@
 
       <button :disabled="!this.isDisabled">Login</button>
     </form>
+    <p class="error-message" v-if="this.isError">
+      {{ this.errorMessage }}
+    </p>
   </div>
 </template>
 
@@ -33,27 +36,44 @@ export default {
   },
   data() {
     return {
+      errorMessage: null,
+      isError: false,
       password: null,
       username: null,
     };
   },
   methods: {
     async handleOnSubmit() {
-      const response = await this.$http.post("user/auth", {
-        username: this.username,
-        password: this.password,
-      });
+      let response = Object();
 
-      const accessToken = response.data[ACCESS_TOKEN_KEY];
-      const refreshToken = response.data[REFRESH_TOKEN_KEY];
+      try {
+        response = await this.$http.post("user/auth", {
+          username: this.username,
+          password: this.password,
+        });
 
-      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+        const accessToken = response.data[ACCESS_TOKEN_KEY];
+        const refreshToken = response.data[REFRESH_TOKEN_KEY];
 
-      this.$router.push({ name: "bookmark-page" });
+        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+
+        this.$router.push({ name: "bookmark-page" });
+      } catch (error) {
+        const {
+          data: { message },
+        } = error;
+
+        this.isError = true;
+        this.errorMessage = message;
+      }
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.error-message {
+  color: red;
+}
+</style>

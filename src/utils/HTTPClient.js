@@ -63,11 +63,11 @@ class HTTPClient {
       async (error) => {
         const originalRequest = error.config;
         const errorResponse = error.response;
-        const status = errorResponse.status;
+        const errorStatus = errorResponse.status;
         const message = errorResponse.data.name;
 
         if (
-          status === 403 &&
+          errorStatus === 403 &&
           message === TOKEN_EXPIRED_ERROR_MESSAGE &&
           !originalRequest._retry
         ) {
@@ -79,7 +79,9 @@ class HTTPClient {
           return axios(originalRequest);
         }
 
-        Promise.reject(error);
+        let { data, status } = errorResponse;
+
+        return Promise.reject({ data, status });
       }
     );
   }
