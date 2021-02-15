@@ -63,25 +63,25 @@ class HTTPClient {
       async (error) => {
         const originalRequest = error.config;
         const errorResponse = error.response;
-        const errorStatus = errorResponse.status;
-        const message = errorResponse.data.name;
 
-        if (
-          errorStatus === 403 &&
-          message === TOKEN_EXPIRED_ERROR_MESSAGE &&
-          !originalRequest._retry
-        ) {
-          await this.refreshAccessToken();
+        if (errorResponse) {
+          const errorStatus = errorResponse.status;
+          const message = errorResponse.data.name;
+          const isFailedByExpiredToken =
+            errorStatus === 403 && message === TOKEN_EXPIRED_ERROR_MESSAGE;
 
-          originalRequest.headers["Authorization"] =
-            "Bearer " + localStorage.getItem(ACCESS_TOKEN_KEY);
+          if (isFailedByExpiredToken) {
+            await this.refreshAccessToken();
 
-          return axios(originalRequest);
+            originalRequest.headers["Authorization"] =
+              "Bearer " + localStorage.getItem(ACCESS_TOKEN_KEY);
+
+            return axios(originalRequest);
+          }
+          return Promise.reject(errorResponse);
         }
 
-        let { data, status } = errorResponse;
-
-        return Promise.reject({ data, status });
+        return Promise.reject(error);
       }
     );
   }
