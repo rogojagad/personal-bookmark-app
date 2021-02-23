@@ -4,14 +4,14 @@
       <text-input
         label="Title"
         name="title"
-        :max-length="50"
+        :max-length="60"
         v-model="title"
       ></text-input>
 
       <text-input
         label="Description"
         name="description"
-        :max-length="60"
+        :max-length="70"
         v-model="description"
       ></text-input>
 
@@ -55,7 +55,20 @@ export default {
   },
   inject: ["categories", "handleBookmarkFormSubmitted"],
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
+      const response = await this.$http.post("bookmark", {
+        category: this.category,
+        description: this.description,
+        title: this.title,
+        url: this.url,
+      });
+
+      const {
+        data: { id },
+      } = response;
+
+      console.log(id);
+
       this.handleBookmarkFormSubmitted({
         category: this.category,
         id: Math.random()

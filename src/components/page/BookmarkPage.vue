@@ -51,11 +51,10 @@ export default {
   async mounted() {
     const response = await this.$http.get("bookmark", true);
     const bookmarks = response.data;
-    let idx = 0;
 
     bookmarks.forEach((bookmark) => {
       this.availableBookmarks.push({
-        id: (idx++).toString(),
+        id: bookmark.id,
         title: bookmark.title,
         url: bookmark.url,
         category: bookmark.category,
