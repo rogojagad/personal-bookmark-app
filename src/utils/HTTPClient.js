@@ -28,6 +28,11 @@ class HTTPClient {
     return await (await this.client.post(endpoint, JSON.stringify(data))).data;
   }
 
+  async delete(endpoint, data, isNeedAuth = false) {
+    this.setupInterceptors(isNeedAuth);
+    return await (await this.client.delete(endpoint, { data })).data;
+  }
+
   async refreshAccessToken() {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     const config = {

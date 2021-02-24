@@ -32,7 +32,12 @@ export default {
   props: ["bookmark"],
   inject: ["handleBookmarkDeleted"],
   methods: {
-    handleDeleteOneBookmark(key) {
+    async handleDeleteOneBookmark(key) {
+      const payload = {
+        id: key,
+      };
+
+      await this.$http.delete("bookmark", payload, true);
       this.handleBookmarkDeleted(key);
     },
   },
