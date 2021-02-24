@@ -48,9 +48,16 @@ export default {
       required: false,
       default: 5,
     },
-    value: {},
+    value: {
+      type: String
+    },
   },
   emits: ["input"],
+  watch: {
+    value(newValue) {
+      this.inputValue = newValue;
+    }
+  },
   methods: {
     handleOnInput() {
       const isExceedingLimit = this.inputValue.length > this.maxLength;

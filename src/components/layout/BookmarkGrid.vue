@@ -4,12 +4,21 @@
 
     <div class="bookmark-grid">
       <bookmark-card
-        v-for="bookmark in categoryInBookmarks"
+        v-for="bookmark in bookmarksInCategory"
         :bookmark="bookmark"
         :key="bookmark.id"
       ></bookmark-card>
-      <span class="no-bookmark-notic" v-if="!categoryInBookmarks.length">
+      <span
+        class="no-bookmark-notice"
+        v-if="bookmarksInCategory.length === 0 && !isLoading"
+      >
         <p>No bookmarks available for this category. Consider adding one.</p>
+      </span>
+      <span
+        class="no-bookmark-notice"
+        v-else-if="bookmarksInCategory.length === 0 && isLoading"
+      >
+        <p>Loading...</p>
       </span>
     </div>
   </div>
@@ -26,18 +35,28 @@ export default {
         backgroundColor: this.category.colorCode,
       };
     },
-    categoryInBookmarks() {
+    bookmarksInCategory() {
       const categoryKey = this.category.key;
-      const bookmarks = this.bookmarks.filter((bookmark) => {
-        const bookmarkCategoryKey = bookmark.category;
-        return bookmarkCategoryKey === categoryKey;
-      });
 
-      return bookmarks;
+      return this.bookmarks.filter((bookmark) => {
+        const bookmarkCategory = bookmark.category;
+
+        return bookmarkCategory === categoryKey;
+      });
     },
+  },
+  data() {
+    return {
+      isLoading: true,
+    };
   },
   inject: ["bookmarks"],
   props: ["category"],
+  watch: {
+    bookmarksInCategory: function() {
+      this.isLoading = false;
+    },
+  },
 };
 </script>
 

@@ -4,8 +4,15 @@
       <text-input
         label="Title"
         name="title"
-        :max-length="50"
+        :max-length="60"
         v-model="title"
+      ></text-input>
+
+      <text-input
+        label="Description"
+        name="description"
+        :max-length="70"
+        v-model="description"
       ></text-input>
 
       <select-input
@@ -24,14 +31,15 @@
 </template>
 
 <script>
-import SelectInput from "../form/SelectInput.vue";
-import TextInput from "../form/TextInput.vue";
-import UrlInput from "../form/UrlInput.vue";
+import SelectInput from "../formInput/SelectInput.vue";
+import TextInput from "../formInput/TextInput.vue";
+import UrlInput from "../formInput/UrlInput.vue";
 
 export default {
   data() {
     return {
-      category: null,
+      category: "-",
+      description: null,
       title: null,
       url: null,
     };
@@ -39,34 +47,45 @@ export default {
   components: { UrlInput, SelectInput, TextInput },
   computed: {
     isDisabled() {
-      console.log(
-        this.category,
-        this.title,
-        this.url,
-        this.category && this.title && this.url
+      const validCategory = this.category !== "-";
+      return Boolean(
+        validCategory && this.title && this.url && this.description
       );
-      return Boolean(this.category && this.title && this.url);
     },
   },
-  inject: ["categories", "handleFormSubmitted"],
+  inject: ["categories", "handleBookmarkFormSubmitted"],
   methods: {
-    handleSubmit() {
-      this.handleFormSubmitted({
-        title: this.title,
+    async handleSubmit() {
+      const response = await this.$http.post("bookmark", {
         category: this.category,
+        description: this.description,
+        title: this.title,
         url: this.url,
       });
+
+      const {
+        data: { id },
+      } = response;
+
+      console.log(id);
+
+      this.handleBookmarkFormSubmitted({
+        category: this.category,
+        id: Math.random()
+          .toString(36)
+          .substring(7),
+        title: this.title,
+        url: this.url,
+        description: this.description,
+      });
+
+      this.title = null;
+      this.category = "-";
+      this.url = null;
+      this.description = null;
     },
   },
 };
 </script>
 
-<style scoped>
-.form-container {
-  margin: 2rem auto;
-  max-width: 40rem;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-}
-</style>
+<style></style>
